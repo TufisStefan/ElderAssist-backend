@@ -7,7 +7,6 @@ import com.example.loginexample.payload.request.LoginRequest;
 import com.example.loginexample.payload.request.SignupRequest;
 import com.example.loginexample.payload.response.JwtResponse;
 import com.example.loginexample.payload.response.MessageResponse;
-import com.example.loginexample.payload.response.UserInfoResponse;
 import com.example.loginexample.repository.RoleRepository;
 import com.example.loginexample.repository.UserRepository;
 import com.example.loginexample.security.jwt.JwtUtils;
@@ -67,8 +66,8 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
-                userDetails.getEmail(),
-                roles));
+                userDetails.getEmail()
+        ));
     }
 
     @PostMapping("/signup")

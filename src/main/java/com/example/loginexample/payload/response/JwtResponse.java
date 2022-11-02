@@ -1,10 +1,7 @@
 package com.example.loginexample.payload.response;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -14,14 +11,11 @@ public class JwtResponse {
     private Long id;
     private String username;
     private String email;
-    @Setter(AccessLevel.NONE)
-    private List<String> roles;
 
-    public JwtResponse(String token, Long id, String username, String email, List<String> roles) {
+    public JwtResponse(String token, Long id, String username, String email) {
         this.token = token;
         this.id = id;
         this.username = username;
         this.email = email;
-        this.roles = roles;
     }
 }

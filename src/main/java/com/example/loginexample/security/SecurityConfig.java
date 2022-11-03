@@ -24,14 +24,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         prePostEnabled = true
 )
 public class SecurityConfig {
-    @Autowired
+    private final AuthEntryPointJwt unauthorizedHandler;
     UserDetailsServiceImpl userDetailsService;
-    @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
+    AuthTokenFilter authTokenFilter;
 
-    @Bean
-    AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
+    @Autowired
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt unauthorizedHandler, AuthTokenFilter authTokenFilter) {
+        this.userDetailsService = userDetailsService;
+        this.unauthorizedHandler = unauthorizedHandler;
+        this.authTokenFilter = authTokenFilter;
     }
 
     @Bean
@@ -62,7 +63,7 @@ public class SecurityConfig {
                 .antMatchers("/api/test/**").permitAll()
                 .anyRequest().authenticated();
         http.authenticationProvider(authenticationProvider());
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

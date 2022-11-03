@@ -14,23 +14,11 @@ import java.util.Date;
 public class JwtUtils {
     public static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${jwtCookieName}")
-    private String jwtCookie;
-
     @Value("${jwtSecret}")
     private String jwtSecret;
 
     @Value("${jwtExpirationMs}")
     private int jwtExpirationMs;
-
- /*   public String getJwtFromCookies(HttpServletRequest request) {
-        Cookie cookie = WebUtils.getCookie(request, jwtCookie);
-        if (cookie != null) {
-            return cookie.getValue();
-        } else {
-            return null;
-        }
-    }*/
 
     public String generateJwtToken(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
@@ -42,15 +30,6 @@ public class JwtUtils {
                 .signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact();
     }
-
-/*    public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
-        String jwt = generateTokenFromUsername(userPrincipal.getUsername());
-        return ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(60 * 60).httpOnly(true).build();
-    }
-
-    public ResponseCookie getCleanJwtCookie() {
-        return ResponseCookie.from(jwtCookie, null).path("/api").build();
-    }*/
 
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();

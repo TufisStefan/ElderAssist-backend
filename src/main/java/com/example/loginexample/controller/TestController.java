@@ -1,16 +1,23 @@
 package com.example.loginexample.controller;
 
+import com.example.loginexample.model.ERole;
+import com.example.loginexample.model.User;
+import com.example.loginexample.service.UserService;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/test")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class TestController {
+
+    private UserService userService;
+
     @GetMapping("/all")
     public String allAccess() {
         return "Public Content.";
@@ -28,10 +35,10 @@ public class TestController {
         return "Moderator Board.";
     }
 
+
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
-    public String adminAccess() {
-        return "Admin Board.";
-
+    public Page<User> getUsers(@RequestParam int pageNumber, @RequestParam int pageSize) {
+        return userService.getUsersByRole(ERole.ROLE_USER, pageNumber, pageSize);
     }
 }

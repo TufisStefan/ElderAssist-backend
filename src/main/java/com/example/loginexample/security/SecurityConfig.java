@@ -3,7 +3,6 @@ package com.example.loginexample.security;
 import com.example.loginexample.security.jwt.AuthEntryPointJwt;
 import com.example.loginexample.security.jwt.AuthTokenFilter;
 import com.example.loginexample.service.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,7 +27,6 @@ public class SecurityConfig {
     UserDetailsServiceImpl userDetailsService;
     AuthTokenFilter authTokenFilter;
 
-    @Autowired
     public SecurityConfig(UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt unauthorizedHandler, AuthTokenFilter authTokenFilter) {
         this.userDetailsService = userDetailsService;
         this.unauthorizedHandler = unauthorizedHandler;

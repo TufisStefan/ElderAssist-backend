@@ -23,4 +23,15 @@ public class UserService {
         Role role = roleRepository.findByName(eRole).orElse(null);
         return userRepository.findAllByRoles(role, page);
     }
+
+    public void deleteUser(String username) {
+        userRepository.findByUsername(username).ifPresent(user -> userRepository.delete(user));
+    }
+
+    public User updateUser(Long id, User user) {
+        if (userRepository.existsById(id)) {
+            return userRepository.save(user);
+        }
+        return user;
+    }
 }

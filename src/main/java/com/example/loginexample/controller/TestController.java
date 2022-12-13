@@ -6,6 +6,7 @@ import com.example.loginexample.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,7 +54,7 @@ public class TestController {
 
     @PostMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<User> updateUser(@RequestParam long id, @RequestBody String jsonObject) {
+    public ResponseEntity<?> updateUser(@RequestParam long id, @RequestBody String jsonObject) {
         ResponseEntity<User> response;
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -61,6 +62,8 @@ public class TestController {
             response = new ResponseEntity<>(userService.updateUser(id, user), HttpStatus.OK);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
+        } catch (DataIntegrityViolationException e) {
+            return new ResponseEntity<>("Username or email already taken", HttpStatus.BAD_REQUEST);
         }
         return response;
     }

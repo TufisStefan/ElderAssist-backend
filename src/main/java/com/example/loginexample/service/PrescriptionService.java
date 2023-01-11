@@ -14,8 +14,6 @@ import java.util.List;
 public class PrescriptionService {
     private PrescriptionRepository prescriptionRepository;
 
-    private PrescriptionItemRepository prescriptionItemRepository;
-
     public Prescription savePrescription(Prescription prescription) {
         return prescriptionRepository.save(prescription);
     }

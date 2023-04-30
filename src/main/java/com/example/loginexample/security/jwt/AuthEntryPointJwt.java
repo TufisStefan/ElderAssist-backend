@@ -19,7 +19,6 @@ import java.util.Map;
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
     public static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
 
-    //Option 1: Send JSON with the error and details
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         logger.error("Unauthorized error: {}", authException.getMessage());
@@ -35,13 +34,4 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getOutputStream(), body);
     }
-
-    //Option 2: Just return 401 Response
-    /*@Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
-                         AuthenticationException authException) throws IOException, ServletException {
-        logger.error("Unauthorized error: {}", authException.getMessage());
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
-    }*/
-
 }

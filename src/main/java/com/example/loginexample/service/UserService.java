@@ -12,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.stream.Collectors;
-
 @Service
 @AllArgsConstructor
 public class UserService {
@@ -24,7 +22,7 @@ public class UserService {
     public Page<User> getUsersByRole(ERole eRole, int pageNumber, int pageSize) {
         Pageable page = PageRequest.of(pageNumber, pageSize);
         Role role = roleRepository.findByName(eRole).orElse(null);
-        return userRepository.findAllByRolesContains(role, page);
+        return role == null ? null : userRepository.findAllByRolesContains(role, page);
     }
 
     public User findUserByName(String user) {

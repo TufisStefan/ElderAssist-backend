@@ -1,7 +1,6 @@
 package com.example.loginexample.service;
 
 import com.example.loginexample.model.Prescription;
-import com.example.loginexample.repository.PrescriptionItemRepository;
 import com.example.loginexample.repository.PrescriptionRepository;
 import com.example.loginexample.repository.PrescriptionSpecifications;
 import lombok.AllArgsConstructor;
@@ -14,8 +13,6 @@ import java.util.List;
 public class PrescriptionService {
     private PrescriptionRepository prescriptionRepository;
 
-    private PrescriptionItemRepository prescriptionItemRepository;
-
     public Prescription savePrescription(Prescription prescription) {
         return prescriptionRepository.save(prescription);
     }
@@ -23,6 +20,6 @@ public class PrescriptionService {
     public Prescription getPrescriptionForUsername(String username) {
         List<Prescription> prescriptions = prescriptionRepository
                 .findAll(PrescriptionSpecifications.hasPatientWithUsername(username));
-        return prescriptions.size() > 0 ? prescriptions.get(0) : null;
+        return prescriptions.size() > 0 ? prescriptions.get(prescriptions.size() - 1) : null;
     }
 }
